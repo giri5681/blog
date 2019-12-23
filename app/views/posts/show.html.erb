@@ -1,0 +1,26 @@
+<% if @user_post %>
+  <div class="page-header">
+    <%= link_to edit_post_path(@user_post), class: 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-pencil"></span>
+      Edit
+    <% end %>
+  </div>
+<% end %>
+
+<dl class="dl-horizontal">
+  <dt>Title:</dt>
+  <dd><%= @post.title %></dd>
+  <dt>Image:</dt>
+  <dd><%= image_tag @post.image ? @post.image.image.url(:thumb) : '' %></dd>
+</dl>
+<p><%= @post.likes.count %> <%= (@post.likes.count) == 1 ? 'Like' : 'Likes'%></p>
+<%= button_to 'Like', post_likes_path(@post), method: :post, class: "btn btn-primary", remote: true %>
+
+<h3>Comments</h3>
+<div id="comments">
+  <%= render partial: "comments/form", locals: { commentable: @post } %>
+  <% if params[:comment] %>
+    <p>Single comment thread. <%= link_to "View all comments", url_for() %></p>
+  <% end %>
+  <%= render @comments, continue_thread: 5 %>
+</div>

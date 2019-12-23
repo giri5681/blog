@@ -1,0 +1,33 @@
+<div class="row">
+  <div class="col-sm-6">
+    <h1>Posts</h1>
+  </div>
+  <div class="col-sm-6 text-right">
+    <%= link_to new_post_path, class: 'btn btn-primary' do %>
+      Add New Post
+    <% end %>
+  </div>
+</div>
+
+<div class="row">
+  <% @posts.each do |post| %>
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 blog-row">
+      <div class="card text-center">
+        <div class="picture">
+          <%= image_tag post.image ? post.image.image.url(:thumb) : '' %>
+        </div>
+        <div class="card-block">
+          <h4 class="card-title"><%= post.title %></h4>
+        </div>
+        <div class="card-block">
+          <h4 class="card-title"><%= post.likes.count %> <%= (post.likes.count) == 1 ? 'Like' : 'Likes'%></h4>
+        </div>
+        <div class="card-block">
+          <h4 class="card-title"><%= post.comments.count %> <%= (post.comments.count) == 1 ? 'Comment' : 'Comments'%></h4>
+        </div>
+        <%= link_to "Show", post_path(post.id), class: "text-primary" %>
+        <%= link_to "Delete", post_path(post.id), method: :delete, class: "text-danger", data: { confirm: 'Are you sure?' } if current_user.id == post.user_id %>
+      </div>
+    </div>
+  <% end %>
+</div>
